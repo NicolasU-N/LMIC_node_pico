@@ -478,6 +478,7 @@ void initLmic(bit_t adrEnabled = 1,
 
     // Initialize LMIC runtime environment
     os_init();
+    
     // Reset MAC state
     LMIC_reset();
 
@@ -717,10 +718,13 @@ void processWork(ostime_t doWorkJobTimeStamp)
     // This is where the main work is performed like
     // reading sensor and GPS data and schedule uplink
     // messages if anything needs to be transmitted.
+    serial.print(F("IN PROCESSWork, >>>>>>>>>>>>>>>>>>>>>>>>>>>>> JOINING "));
+    
 
     // Skip processWork if using OTAA and still joining.
     if (LMIC.devaddr != 0)
     {
+        serial.print(F("IN PROCESSWork, ------------------------------------------ JOINED "));
         // Collect input data.
         // For simplicity LMIC-node uses a counter to simulate a sensor. 
         // The counter is increased automatically by getCounterValue()
@@ -838,6 +842,8 @@ void setup()
         #endif
         abort();
     }
+
+    serial.println(F("init HW OK, GO TO init LMIC"));
 
     initLmic();
 
